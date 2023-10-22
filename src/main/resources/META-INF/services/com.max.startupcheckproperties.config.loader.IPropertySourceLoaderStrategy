@@ -1,0 +1,2 @@
+com.max.startupcheckproperties.config.loader.impl.CustomPropertiesPropertySourceLoaderStrategy
+com.max.startupcheckproperties.config.loader.impl.CustomYamlPropertySourceLoaderStrategy
