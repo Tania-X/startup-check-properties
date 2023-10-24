@@ -15,16 +15,30 @@ public class CustomPropertySourceLoader implements PropertySourceLoader {
 
   private final List<IPropertySourceLoaderStrategy> strategies;
 
+  // 默认用于Spring加载配置类的注入
   public CustomPropertySourceLoader() {
     strategies = ServicesFinder.findAllStrategies();
   }
 
+  // 用于策略模式，由编程者根据业务传入需要处理的策略
+  public CustomPropertySourceLoader(IPropertySourceLoaderStrategy strategy) {
+    strategies = List.of(strategy);
+  }
+
+  public CustomPropertySourceLoader(IPropertySourceLoaderStrategy... strategies) {
+    this.strategies = Arrays.asList(strategies);
+  }
+
   @Override
   public String[] getFileExtensions() {
-    // todo 是否能用一句代码写完这部分逻辑？
-    List<String> fileExtensionList = new ArrayList<>();
-    strategies.forEach(strategy -> fileExtensionList.addAll(List.of(strategy.getFileExtensions())));
-    return fileExtensionList.toArray(String[]::new);
+    // 可以用一句代码写完这部分逻辑 --> 注意flatMap的用法
+//    List<String> fileExtensionList = new ArrayList<>();
+//    strategies.forEach(strategy -> fileExtensionList.addAll(List.of(strategy.getFileExtensions())));
+//    return fileExtensionList.toArray(String[]::new);
+
+    return strategies.stream()
+        .flatMap(strategy -> Arrays.stream(strategy.getFileExtensions()))
+        .toArray(String[]::new);
   }
 
   @Override
