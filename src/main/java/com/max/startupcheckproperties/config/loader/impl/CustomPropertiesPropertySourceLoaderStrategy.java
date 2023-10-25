@@ -19,4 +19,5 @@ public class CustomPropertiesPropertySourceLoaderStrategy implements IPropertySo
       throws IOException {
     return load(name, resource, new PropertiesPropertySourceLoader());
   }
+
 }

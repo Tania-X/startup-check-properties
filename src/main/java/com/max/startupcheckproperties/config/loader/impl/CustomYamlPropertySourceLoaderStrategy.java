@@ -19,4 +19,5 @@ public class CustomYamlPropertySourceLoaderStrategy implements IPropertySourceLo
       throws IOException {
     return load(name, resource, new YamlPropertySourceLoader());
   }
+
 }
