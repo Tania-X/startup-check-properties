@@ -72,7 +72,8 @@ public class FileConfigTest extends ApplicationTests {
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        if (!line.startsWith("//") && !line.startsWith("#")) {
+        // 此处默认application.properties注释内容以 # 开头
+        if (!line.startsWith("#")) {
           list.add(line);
         }
       }
@@ -81,6 +82,7 @@ public class FileConfigTest extends ApplicationTests {
     }
     for (String line : list) {
       String[] contents = line.split("=");
+      // 无法通过 = 将该行分解为两部分的情况，即认为属性值为空
       if (contents.length == 1) {
         System.out.println("empty attr: " + "[" + line + "]");
       }
